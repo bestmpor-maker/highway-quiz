@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สรุปผล</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>สรุปผลคะแนน</h1>
+      <div class="score">{{ score }} / {{ total }}</div>
+
+      <h2>ข้อที่ตอบผิด</h2>
+      {% if wrong_items %}
+        <div class="stack">
+          {% for item in wrong_items %}
+            <div class="wrong-card">
+              <p><strong>ข้อ {{ loop.index }}</strong> — {{ item.question }}</p>
+              <p><strong>ที่เลือก:</strong> {{ item.selected_choice }}</p>
+              <p><strong>ที่ถูก:</strong> {{ item.correct_choice }}</p>
+              <p><strong>อธิบาย:</strong> {{ item.explanation }}</p>
+              <p class="muted">หน้าอ้างอิง: {{ item.source_page }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert success">เยี่ยมมาก ตอบถูกทุกข้อ</div>
+      {% endif %}
+
+      <form action="{{ url_for('restart') }}" method="post">
+        <button type="submit">เริ่มใหม่</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
