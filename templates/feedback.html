@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เฉลยข้อ {{ current_no }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="topbar">
+        <span class="badge">ข้อ {{ current_no }} / {{ total }}</span>
+        {% if last_answer.is_correct %}
+          <span class="result ok">ตอบถูก</span>
+        {% else %}
+          <span class="result no">ตอบผิด</span>
+        {% endif %}
+      </div>
+
+      <h2 class="question">{{ question.question }}</h2>
+
+      <div class="answer-box">
+        <p><strong>คำตอบที่คุณเลือก:</strong> {{ last_answer.selected_choice }}</p>
+        <p><strong>คำตอบที่ถูก:</strong> {{ last_answer.correct_choice }}</p>
+        <p><strong>คำอธิบาย:</strong> {{ last_answer.explanation }}</p>
+        <p class="muted">อ้างอิงจากหน้า {{ last_answer.source_page }} ของชุดข้อมูล</p>
+      </div>
+
+      <form action="{{ url_for('next_question') }}" method="post">
+        <button type="submit">
+          {% if current_no < total %}ไปข้อถัดไป{% else %}ดูสรุปผล{% endif %}
+        </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

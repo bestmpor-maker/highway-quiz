@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อ {{ current_no }}/{{ total }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="topbar">
+        <span class="badge">ข้อ {{ current_no }} / {{ total }}</span>
+      </div>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alert error">
+            {% for message in messages %}
+              <div>{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <h2 class="question">{{ question.question }}</h2>
+
+      <form action="{{ url_for('submit') }}" method="post" class="stack">
+        {% for choice in question.choices %}
+          <label class="choice">
+            <input type="radio" name="choice" value="{{ loop.index0 }}">
+            <span>{{ loop.index }}. {{ choice }}</span>
+          </label>
+        {% endfor %}
+        <button type="submit">ส่งคำตอบ</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
